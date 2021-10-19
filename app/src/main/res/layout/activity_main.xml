@@ -28,6 +28,7 @@
             android:id="@+id/etTagInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Tag"
@@ -37,7 +38,20 @@
             android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:text="Search" />
+
+        <EditText
+            android:id="@+id/etAmount"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="amount"
+            android:inputType="number" />
+
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,10 @@ import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -26,12 +24,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var tagInput: EditText
     private lateinit var searchButton: Button
+    private lateinit var amountInput: EditText
 
     private var photos = ArrayList<Photo>()
 
     private var tag = ""
     private val API_KEY = "0c944ebbc472f758230f3711aea24676"
     private lateinit var cm: ConnectivityManager
+    var amount = "100"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +40,19 @@ class MainActivity : AppCompatActivity() {
         rvMain = findViewById(R.id.rvMain)
         adapter = RVPhoto(photos,this)
         rvMain.adapter = adapter
-        rvMain.layoutManager = LinearLayoutManager(this)
+        rvMain.layoutManager = GridLayoutManager(this, 2)
 
         tagInput = findViewById(R.id.etTagInput)
         searchButton = findViewById(R.id.btnSearch)
+        amountInput = findViewById(R.id.etAmount)
 
         searchButton.setOnClickListener {
             if(tagInput.text.isNotEmpty()){
                 tag = tagInput.text.toString()
+                if(amountInput.text.isNotEmpty()) {
+                    amount = (amountInput.text.toString().toInt()+1).toString()
+                    amountInput.text.clear()
+                }
                 requestApi()
                 tagInput.text.clear()
             }else{
@@ -84,7 +89,7 @@ class MainActivity : AppCompatActivity() {
     private fun fetchData(): String {
         var response = ""
         try {
-            response = URL("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=$API_KEY&tags=$tag&page=1&format=json&nojsoncallback=1").readText(Charsets.UTF_8)
+            response = URL("https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=$API_KEY&per_page=$amount&tags=$tag&page=1&format=json&nojsoncallback=1").readText(Charsets.UTF_8)
         }catch (e: Exception){
             Log.e("TAG","ISSUE -> $e")
         }

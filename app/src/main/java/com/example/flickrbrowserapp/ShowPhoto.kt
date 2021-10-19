@@ -26,6 +26,9 @@ class ShowPhoto : AppCompatActivity() {
         Glide.with(this)
             .load(urlOfImage)
             .into(mainImageView)
+        
+        
+        
 
     }
 }
